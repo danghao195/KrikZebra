@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">KrikZebra</string>
+    <string name="tao_phieu">Tạo Phiếu</string>
+    <string name="danh_sach">Danh Sách</string>
+    <string name="luu">Lưu</string>
+    <string name="nguoi_tao">Người Tạo</string>
+    <string name="ten_dot_kiem_kho">Tên Đợt Kiểm Kho</string>
+    <string name="them_mat_hang">Thêm Mặt Hàng</string>
+    <string name="luu_mat_hang">Lưu Mặt Hàng</string>
+    <string name="so_luong">Số Lượng</string>
+    <string name="ma_don_hang">Mã Đơn Hàng</string>
+    <string name="cap_nhat_mat_hang">Cập Nhật Mặt Hàng</string>
+    <string name="xoa_dot_da_chon">Xóa Đợt Đã Chọn</string>
+    <string name="xuat_du_lieu">Xuất Dữ Liệu</string>
+</resources>
