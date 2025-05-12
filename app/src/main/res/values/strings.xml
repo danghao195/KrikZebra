@@ -9,7 +9,7 @@
     <string name="luu_mat_hang">Lưu Mặt Hàng</string>
     <string name="so_luong">Số Lượng</string>
     <string name="ma_don_hang">Mã Đơn Hàng</string>
-    <string name="cap_nhat_mat_hang">Cập Nhật Mặt Hàng</string>
+    <string name="cap_nhat">Cập Nhật</string>
     <string name="xoa_dot_da_chon">Xóa Đợt Đã Chọn</string>
     <string name="xuat_du_lieu">Xuất Dữ Liệu</string>
 </resources>

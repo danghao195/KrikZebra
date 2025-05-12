@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
 
@@ -32,6 +34,7 @@ public class EditItemActivity extends AppCompatActivity {
         editTextOrderCode = findViewById(R.id.editTextOrderCode);
         editTextQuantity = findViewById(R.id.editTextQuantity);
         Button buttonSaveItem = findViewById(R.id.buttonSaveItem);
+        Button deleteItemButton = findViewById(R.id.deleteItemButton);
 
         db = Room.databaseBuilder(getApplicationContext(),
                 AppDatabase.class, "inventory-db").build();
@@ -46,6 +49,40 @@ public class EditItemActivity extends AppCompatActivity {
             });
         });
 
+        deleteItemButton.setOnClickListener(v->{
+            String orderCode = editTextOrderCode.getText().toString();
+            int quantity = Integer.parseInt(editTextQuantity.getText().toString());
+
+            Item item = new Item();
+            item.id = itemId;
+            item.batchId = batchId;
+            item.orderCode = orderCode;
+            new AlertDialog.Builder(this)
+                    .setTitle("Xác nhận xóa")
+                    .setMessage("Bạn có chắc chắn muốn xóa sản phẩm này?")
+                    .setPositiveButton("Có", (dialog, which) -> {
+
+                        Executors.newSingleThreadExecutor().execute(() -> {
+                            try {
+                                db.inventoryDao().deleteItem(item);
+                                // Trả về kết quả cho Activity gọi
+                                Intent resultIntent;
+                                resultIntent = new Intent();
+                                resultIntent.putExtra("DELETE_ITEM", item); // Truyền item đã cập nhật
+                                setResult(RESULT_OK, resultIntent);
+                                finish();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            } finally {
+                                if (db != null) {
+                                    db.close(); // Đóng kết nối
+                                }
+                            }
+                        });
+                    })
+                    .setNegativeButton("Không", null)
+                    .show();
+        });
         buttonSaveItem.setOnClickListener(v -> {
             String orderCode = editTextOrderCode.getText().toString();
             int quantity = Integer.parseInt(editTextQuantity.getText().toString());

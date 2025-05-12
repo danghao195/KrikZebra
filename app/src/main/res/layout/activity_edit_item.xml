@@ -15,11 +15,24 @@
         android:id="@+id/editTextQuantity"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:inputType="number"
         android:hint="@string/so_luong"/>
 
-    <Button
-        android:id="@+id/buttonSaveItem"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/cap_nhat_mat_hang"/>
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/buttonSaveItem"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="@string/cap_nhat" />
+        <Button
+            android:id="@+id/deleteItemButton"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="Delete" />
+    </LinearLayout>
 </LinearLayout>

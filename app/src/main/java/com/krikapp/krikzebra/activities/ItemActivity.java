@@ -328,9 +328,14 @@ public class ItemActivity extends AppCompatActivity  implements EMDKListener, St
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CommonInstance.EDIT_ITEM_REQUEST &&
                 resultCode == RESULT_OK) {
+            Item deleteItem = (Item) data.getSerializableExtra("DELETE_ITEM");
             Item updatedItem = (Item) data.getSerializableExtra("UPDATED_ITEM"); // Nhận item đã cập nhật
-            adapter.updateItem(updatedItem); // Cập nhật danh sách trong adapter
-            recyclerView.scrollToPosition(0); // Cuộn lên đầu danh sách
+            if(deleteItem== null) {
+                adapter.updateItem(updatedItem); // Cập nhật danh sách trong adapter
+                recyclerView.scrollToPosition(0); // Cuộn lên đầu danh sách
+            } else{
+                adapter.deleteItem(deleteItem);
+            }
         }
         if (requestCode == CommonInstance.NEW_ITEM_REQUEST && resultCode == RESULT_OK) {
             Item newItem = (Item) data.getSerializableExtra("NEW_ITEM");

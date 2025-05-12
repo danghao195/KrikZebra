@@ -76,9 +76,20 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
                 break;
             }
         }
-            itemList.add(0, updatedItem); // Nếu không tìm thấy, thêm mới ở đầu
-            notifyItemInserted(0); // Thông báo cho adapter
+        itemList.add(0, updatedItem); // thêm mới ở đầu
+        notifyItemInserted(0); // Thông báo cho adapter
 
+    }
+    public void deleteItem(Item updatedItem) {
+        int position =-1;
+        for(Item item : itemList){
+            if(item.id ==updatedItem.id){
+                position = itemList.indexOf(item);
+                itemList.remove(position);
+                notifyItemRemoved(position);
+                break;
+            }
+        }
     }
 
     public void addItem(Item newItem) {
