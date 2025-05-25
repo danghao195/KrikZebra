@@ -4,8 +4,11 @@ package com.krikapp.krikzebra.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
 
@@ -19,6 +22,8 @@ import java.util.Locale;
 
 public class AddItemActivity extends AppCompatActivity {
     private EditText editTextOrderCode, editTextQuantity;
+
+    private TextView textViewError;
     private AppDatabase db;
 
     @Override
@@ -28,6 +33,7 @@ public class AddItemActivity extends AppCompatActivity {
 
         editTextOrderCode = findViewById(R.id.editTextOrderCode);
         editTextQuantity = findViewById(R.id.editTextQuantity);
+        textViewError = findViewById(R.id.textViewError);
         Button buttonSaveItem = findViewById(R.id.buttonSaveItem);
 
         db = Room.databaseBuilder(getApplicationContext(),
@@ -37,9 +43,22 @@ public class AddItemActivity extends AppCompatActivity {
 
         buttonSaveItem.setOnClickListener(v -> {
             String orderCode = editTextOrderCode.getText().toString();
-            int quantity = Integer.parseInt(editTextQuantity.getText().toString());
+            String quantityStr = editTextQuantity.getText().toString().trim();
             String currentDateTime = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault()).format(new Date());
 
+            // Validate input
+            if (orderCode.isEmpty()) {
+                textViewError.setText("Mã sản phẩm không được để trống.");
+                textViewError.setVisibility(View.VISIBLE);
+                return;
+            }
+
+            if (quantityStr.isEmpty()) {
+                textViewError.setText("Số lượng không được để trống.");
+                textViewError.setVisibility(View.VISIBLE);
+                return;
+            }
+            int quantity = Integer.parseInt(quantityStr);
             Item newItem = new Item();
             newItem.batchId = batchId; // Gán batchId
             newItem.orderCode = orderCode;

@@ -93,6 +93,7 @@ public class BatchListActivity extends AppCompatActivity {
     private void loadBatchList() {
         new Thread(() -> {
             List<InventoryBatch> batchList = db.inventoryDao().getAllBatches();
+            batchList.forEach(b-> b.createdDate = b.createdDate.substring(0, 10));
             runOnUiThread(() -> {
                 adapter = new BatchAdapter(batchList, BatchListActivity.this);
                 recyclerView.setAdapter(adapter);

@@ -15,7 +15,7 @@ import java.util.List;
 @Dao
 public interface InventoryDao {
     @Insert
-    void insertBatch(InventoryBatch batch);
+    long insertBatch(InventoryBatch batch);
 
     @Delete
     void deleteBatch(InventoryBatch batch);

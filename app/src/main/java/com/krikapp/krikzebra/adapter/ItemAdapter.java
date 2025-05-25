@@ -41,7 +41,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
         Item item = itemList.get(position);
         holder.orderCode.setText(item.orderCode);
         holder.quantity.setText(String.valueOf(item.quantity));
-        holder.dateTime.setText(item.dateTime);
+      //  holder.dateTime.setText(item.dateTime);
 
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(context, EditItemActivity.class);
@@ -57,13 +57,13 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
     }
 
     public static class ItemViewHolder extends RecyclerView.ViewHolder {
-        TextView orderCode, quantity, dateTime;
+        TextView orderCode, quantity;//, dateTime;
 
         public ItemViewHolder(@NonNull View itemView) {
             super(itemView);
             orderCode = itemView.findViewById(R.id.textOrderCode);
             quantity = itemView.findViewById(R.id.textQuantity);
-            dateTime = itemView.findViewById(R.id.textDateTime);
+            //dateTime = itemView.findViewById(R.id.textDateTime);
         }
     }
     public void updateItem(Item updatedItem) {
