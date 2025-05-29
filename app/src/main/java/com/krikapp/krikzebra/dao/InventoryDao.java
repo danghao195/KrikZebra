@@ -9,6 +9,7 @@ import androidx.room.Update;
 import com.krikapp.krikzebra.model.ExportItem;
 import com.krikapp.krikzebra.model.InventoryBatch;
 import com.krikapp.krikzebra.model.Item;
+import com.krikapp.krikzebra.model.ItemWithBatch;
 
 import java.util.List;
 
@@ -41,4 +42,12 @@ public interface InventoryDao {
 
     @Query("SELECT * FROM Item WHERE id = :itemId and batchId= :batchId")
     Item getItemById(int itemId, int batchId);
+
+    @Query("SELECT  items.orderCode, SUM(quantity) as sumQuantity, b.name AS batchName, max(items.dateTime) AS timeMax " +
+            "FROM Item AS items " +
+            "JOIN InventoryBatch b ON items.batchId = b.id " +
+            "WHERE items.batchId IN (:batchId) " +
+            "Group by items.orderCode,batchName " +
+            "ORDER BY timeMax DESC")
+    List<ExportItem> getItemsWithBatch(List<Long> batchId);
 }

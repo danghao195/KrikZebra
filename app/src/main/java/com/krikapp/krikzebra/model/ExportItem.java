@@ -8,5 +8,6 @@ import java.io.Serializable;
 @Entity
 public class ExportItem implements Serializable {
     public String orderCode;
+    public String batchName;
     public int sumQuantity;
 }

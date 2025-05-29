@@ -63,12 +63,16 @@ public class CreateSendExcelFileTask extends AsyncTask<Void, Void, Void> {
             Sheet sheet = workbook.getSheetAt(1);
             int rowNum = 1;
             List<Long> ids = convertObjectIdList(inventoryCheckList);
-            List<ExportItem> items = db.inventoryDao().getItemsByBatchIds(ids/*batch.id*/);
+            List<ExportItem> items = db.inventoryDao().getItemsWithBatch(ids); //getItemsByBatchIds(ids/*batch.id*/);
             for (ExportItem item : items) {
                 Row row = sheet.createRow(rowNum++);
+                row.createCell(0).setCellValue(item.batchName);
                 row.createCell(2).setCellValue(item.orderCode);
                 row.createCell(3).setCellValue(item.sumQuantity);
             }
+            Row row1 = sheet.createRow(0);
+            row1.createCell(5).setCellFormula("CONCATENATE(\"Tổng: \",COUNTA(C:C)-1,\" / \",SUM(D:D))");
+            //row1.createCell(6).setCellFormula("CONCATENATE(\\\"Tổng: \\\",COUNTA(C:C)-1,\\\" / \\\",SUM(D:D))");
             File file = new File(context.getExternalFilesDir(null), fileName);
             FileOutputStream fileOut = new FileOutputStream(file);
             workbook.write(fileOut);
