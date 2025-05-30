@@ -70,8 +70,13 @@ public class CreateSendExcelFileTask extends AsyncTask<Void, Void, Void> {
                 row.createCell(2).setCellValue(item.orderCode);
                 row.createCell(3).setCellValue(item.sumQuantity);
             }
-            Row row1 = sheet.createRow(0);
-            row1.createCell(5).setCellFormula("CONCATENATE(\"Tổng: \",COUNTA(C:C)-1,\" / \",SUM(D:D))");
+           // Row row1 = sheet.getRow(0);
+            //row1.createCell(0).setCellValue("Tên kho");
+            //row1.createCell(1).setCellValue("Vị trí");
+            //row1.createCell(2).setCellValue("Sản phẩm");
+            //row1.createCell(3).setCellValue("Số lượng");
+            //row1.createCell(4).setCellValue("Ghi chú");
+           // row1.createCell(5).setCellFormula("CONCATENATE(\"Tổng: \",COUNTA(UNIQUE(C:C))-2,\" / \",SUM(D:D))");
             //row1.createCell(6).setCellFormula("CONCATENATE(\\\"Tổng: \\\",COUNTA(C:C)-1,\\\" / \\\",SUM(D:D))");
             File file = new File(context.getExternalFilesDir(null), fileName);
             FileOutputStream fileOut = new FileOutputStream(file);
