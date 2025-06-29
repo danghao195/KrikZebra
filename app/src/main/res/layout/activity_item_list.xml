@@ -26,6 +26,13 @@
             android:textStyle="bold"
             android:padding="16dp" />
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/tongSoTv"
+        android:layout_width="match_parent"
+        android:layout_height="33dp"
+        android:text="Tổng số: " />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewItems"
         android:layout_width="match_parent"

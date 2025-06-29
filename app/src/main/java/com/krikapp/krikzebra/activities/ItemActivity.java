@@ -156,6 +156,7 @@ public class ItemActivity extends AppCompatActivity  implements EMDKListener, St
     private TextView statusTextView = null;
     private EditText dataView = null;
 
+    private TextView tongSoTv = null;
     private RecyclerView recyclerView;
     private ItemAdapter adapter;
     private AppDatabase db;
@@ -166,7 +167,8 @@ public class ItemActivity extends AppCompatActivity  implements EMDKListener, St
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_list);
-
+        tongSoTv = findViewById(R.id.tongSoTv);
+        tongSoTv.setText("Tổng số: ");
         recyclerView = findViewById(R.id.recyclerViewItems);
         Button buttonAddItem = findViewById(R.id.buttonAddItem);
         db = Room.databaseBuilder(getApplicationContext(),
@@ -256,10 +258,27 @@ public class ItemActivity extends AppCompatActivity  implements EMDKListener, St
     public void addOrUpdateItem(String itemCode) {
         // Giả sử bạn có một danh sách item
         for (Item item : itemList ) {
+
+
             if (item.orderCode.equals(itemCode)) {
                 // Nếu mã mặt hàng đã có, tăng số lượng lên 1
                 item.quantity = item.quantity + 1;
                 item.dateTime = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault()).format(new Date());
+                itemTotal++;
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                //Update tổng số:
+                                tongSoTv.setText("Tổng số: " + itemTotal);
+
+                            }
+                        });
+
+                    }
+                }).start();
                 //update vào database
                 new Thread(new Runnable() {
                     @Override
@@ -288,6 +307,21 @@ public class ItemActivity extends AppCompatActivity  implements EMDKListener, St
         newItem.orderCode = itemCode;
         newItem.batchId = batchId;
         newItem.quantity = 1;
+        itemTotal++;
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        //Update tổng số:
+                        tongSoTv.setText("Tổng số: " + itemTotal);
+
+                    }
+                });
+
+            }
+        }).start();
         newItem.dateTime = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault()).format(new Date());
         new Thread(new Runnable() {
             @Override
@@ -311,11 +345,17 @@ public class ItemActivity extends AppCompatActivity  implements EMDKListener, St
             }
         }).start();
     }
+    int itemTotal = 0;
     private void loadItemList() {
         new Thread(() -> {
 
+
             itemList = db.inventoryDao().getItemsByBatchId(batchId);
+            itemTotal = itemList.stream()
+                    .mapToInt(item -> item.quantity)
+                    .sum();
             runOnUiThread(() -> {
+                tongSoTv.setText("Tổng số: " + itemTotal);
                 adapter = new ItemAdapter(itemList, ItemActivity.this);
                 recyclerView.setAdapter(adapter);
                 recyclerView.setLayoutManager(new LinearLayoutManager(this));

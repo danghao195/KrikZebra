@@ -26,7 +26,9 @@ import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class CreateSendExcelFileTask extends AsyncTask<Void, Void, Void> {
     private ProgressDialog progressDialog;
@@ -64,12 +66,20 @@ public class CreateSendExcelFileTask extends AsyncTask<Void, Void, Void> {
             int rowNum = 1;
             List<Long> ids = convertObjectIdList(inventoryCheckList);
             List<ExportItem> items = db.inventoryDao().getItemsWithBatch(ids); //getItemsByBatchIds(ids/*batch.id*/);
+
+            Set<String> countItem = new HashSet<>();
+            int sumItem =0;
             for (ExportItem item : items) {
+                countItem.add(item.orderCode);
+                sumItem += item.sumQuantity;
                 Row row = sheet.createRow(rowNum++);
                 row.createCell(0).setCellValue(item.batchName);
                 row.createCell(2).setCellValue(item.orderCode);
                 row.createCell(3).setCellValue(item.sumQuantity);
             }
+
+            Row row1 = sheet.getRow(0);
+            row1.createCell(5).setCellValue("Tổng:  " + countItem.size() + "/" + sumItem);
            // Row row1 = sheet.getRow(0);
             //row1.createCell(0).setCellValue("Tên kho");
             //row1.createCell(1).setCellValue("Vị trí");
